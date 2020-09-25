@@ -11,70 +11,45 @@ namespace Tasks
     [Route("[controller]")]
     public class TasksController : ControllerBase
     {
-        public TasksController()
+        private ITasksDBDAL TasksDBDAL { get; set; }
+        public TasksController(
+            ITasksDBDAL tasksDBDAL
+        )
         {
-            Console.WriteLine("Hello World");
+            this.TasksDBDAL = tasksDBDAL;
         }
 
 
-        [HttpGet("a")]
-        public async Task<ActionResult<long>> CreateBalance()
+        [HttpGet("Owner/{userName}")]
+        public async Task<List<Task>> GetUserTasks(string userName)
         {
-            // var balanceID = await this.payoneerDBDAL.CreateBalance().ConfigureAwait(false);
-            Console.WriteLine("Hello World");
-            return Ok();
+            return await this.TasksDBDAL.GetUserTasks(userName);
         }
 
-        // [HttpGet("GetBalanceInfo/{id}")]
-        // public async Task<ActionResult<BalanceInfo>> GetBalanceInfo(long id)
-        // {
-        //     var (balance, doesBalanceExist) = await this.payoneerDBDAL.GetBalance(id).ConfigureAwait(false);
-        //     if (!doesBalanceExist)
-        //     {
-        //         return NotFound();
-        //     }
-        //     return Ok(balance);
-        // }
+        [HttpPost("Create")]
+        public async System.Threading.Tasks.Task Create([FromBody] Task task)
+        {
+            try
+            {
+                await this.TasksDBDAL.Create(task);
+            }
+            catch (System.Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
 
-        // [HttpGet("Charge/{balanceID}/{amount}")]
-        // public async Task<ActionResult> Charge(long balanceID, float amount)
-        // {
-        //     var (doesBalanceExist, isBalanceAmountEnough) = await this.payoneerDBDAL.Charge(balanceID, amount).ConfigureAwait(false);
-        //     if (!doesBalanceExist)
-        //     {
-        //         return BadRequest(new Exception("Balance doesn't exist"));
-        //     }
-        //     if (!isBalanceAmountEnough)
-        //     {
-        //         return BadRequest(new Exception("Balance doesn't have sufficient amount"));
-        //     }
-        //     return Ok();
-        // }
-
-        // [HttpGet("Load/{balanceID}/{amount}")]
-        // public async Task<ActionResult> Load(long balanceID, float amount)
-        // {
-        //     var doesBalanceExist = await this.payoneerDBDAL.Load(balanceID, amount).ConfigureAwait(false);
-        //     if (!doesBalanceExist)
-        //     {
-        //         return BadRequest(new Exception("Balance doesn't exist"));
-        //     }
-        //     return Ok();
-        // }
-
-        // [HttpGet("Transfer/{senderBalanceID}/{recipientBalanceID}/{amount}")]
-        // public async Task<ActionResult> Transfer(long senderBalanceID, long recipientBalanceID, float amount)
-        // {
-        //     var (doBalancesExist, isSenderBalanceAmountEnough) = await this.payoneerDBDAL.Transfer(senderBalanceID, recipientBalanceID, amount).ConfigureAwait(false);
-        //     if (!doBalancesExist)
-        //     {
-        //         return BadRequest(new Exception("One of the balances or both don't exist"));
-        //     }
-        //     if (!isSenderBalanceAmountEnough)
-        //     {
-        //         return BadRequest(new Exception("The sender's balance doesn't have sufficient amount for the transaction"));
-        //     }
-        //     return Ok();
-        // }
+        [HttpGet("MarkAsDone/{taskName}")]
+        public async System.Threading.Tasks.Task MarkAsDone(string taskName)
+        {
+            try
+            {
+                await this.TasksDBDAL.MarkAsDone(taskName);
+            }
+            catch (System.Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
     }
 }

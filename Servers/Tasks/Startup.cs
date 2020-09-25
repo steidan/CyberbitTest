@@ -58,12 +58,18 @@ namespace Tasks
         // Don't build the container; that gets done for you by the factory.
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            // builder.Register(c =>
-            // {
-            //     return new PayoneerDB(long.MinValue, new ConcurrentDictionary<long, BalanceInfo>(), new object());
-            // })
-            // .As<IPayoneerDBDAL>()
-            // .SingleInstance();
+            builder.Register(c =>
+            {
+                return new TasksDB(new List<Task>
+                {
+                    new Task{Name="Buy bread", Deadline=DateTime.Now, IsDone=false, Owner="Beast"},
+                    new Task{Name="Buy milk", Deadline=DateTime.Now, IsDone=true, Owner="TJ"},
+                    new Task{Name="Go to the post office", Deadline=DateTime.Now, IsDone=true, Owner="Beast"},
+                    new Task{Name="Do the sound that cricket does", Deadline=DateTime.Now, IsDone=false, Owner="TJ"},
+                });
+            })
+            .As<ITasksDBDAL>()
+            .SingleInstance();
         }
     }
 }
