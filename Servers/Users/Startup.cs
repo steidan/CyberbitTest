@@ -58,12 +58,17 @@ namespace Users
         // Don't build the container; that gets done for you by the factory.
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            // builder.Register(c =>
-            // {
-            //     return new PayoneerDB(long.MinValue, new ConcurrentDictionary<long, BalanceInfo>(), new object());
-            // })
-            // .As<IPayoneerDBDAL>()
-            // .SingleInstance();
+            builder.Register(c =>
+            {
+                return new UsersDB(new List<User>
+                {
+                    // My lovely kittens
+                    new User{Name="Beast"},
+                    new User{Name="TJ"},
+                });
+            })
+            .As<IUsersDBDAL>()
+            .SingleInstance();
         }
     }
 }
