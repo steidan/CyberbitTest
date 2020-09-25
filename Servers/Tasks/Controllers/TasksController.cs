@@ -17,6 +17,7 @@ namespace Tasks
         )
         {
             this.TasksDBDAL = tasksDBDAL;
+            System.Console.WriteLine(tasksDBDAL);
         }
 
 

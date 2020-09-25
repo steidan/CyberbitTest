@@ -62,7 +62,7 @@ namespace Tasks
             {
                 return new TasksDB(new List<Task>
                 {
-                    new Task{Name="Buy bread", Deadline=DateTime.Now, IsDone=false, Owner="Beast"},
+                    new Task{Name="Buy a bread", Deadline=DateTime.Now, IsDone=false, Owner="Beast"},
                     new Task{Name="Buy milk", Deadline=DateTime.Now, IsDone=true, Owner="TJ"},
                     new Task{Name="Go to the post office", Deadline=DateTime.Now, IsDone=true, Owner="Beast"},
                     new Task{Name="Do the sound that cricket does", Deadline=DateTime.Now, IsDone=false, Owner="TJ"},
